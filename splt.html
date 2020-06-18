@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <body>
 <canvas id="output" width="400" height="800"></canvas>
@@ -31,7 +31,6 @@ class SPLT {
 			this.board[i] = [];
 			for (var j = 0; j < boardWidth; ++j) this.board[i][j] = {'x' : 0, 'y' : 0};
 		}
-		console.log("INITIALIZE");
 		this.board[0][0] = new Block(boardHeight,boardWidth);
 		this.horizontal = true;
 		this.turns = 0;
@@ -48,12 +47,10 @@ class SPLT {
 	countDown() {
 		var someRemoved = false;
 		for (var yPos = 0; yPos < this.boardHeight; ++yPos) {
-			var minHeight = this.boardHeight;
 			for (var xPos = 0; xPos < this.boardWidth; ++xPos) {
 				if (this.board[yPos][xPos] instanceof Block) {
 					var thisHeight = this.board[yPos][xPos].height;
 					var thisWidth  = this.board[yPos][xPos].width;
-					if (thisHeight < minHeight) minHeight = thisHeight;
 					if (this.board[yPos][xPos].counter > 0) {
 						--this.board[yPos][xPos].counter;
 						++this.score;
@@ -70,7 +67,6 @@ class SPLT {
 					xPos += thisWidth-1;
 				}
 			}
-			yPos += minHeight-1;
 		}
 		return someRemoved;
 	}
@@ -106,17 +102,14 @@ class SPLT {
 		// xPos and yPos is the upper left block's start position.
 		var toMark = [];
 		for (var yPos = 0; yPos < this.boardHeight; ++yPos) {
-			var minHeight = this.boardHeight;
 			for (var xPos = 0; xPos < this.boardWidth; ++xPos) {
 				if (this.board[yPos][xPos] instanceof Block) {
-					if (this.board[yPos][xPos].height < minHeight) minHeight = this.board[yPos][xPos].height;
 					if (this.checkFours(xPos,yPos)) {
 						toMark.push({"x":xPos,"y":yPos});
 					}
 					xPos += this.board[yPos][xPos].width-1;
 				}
 			}
-			yPos += minHeight-1;
 		}
 		/* var thisHeight = this.board[yPos][xPos].height;
 		var thisWidth = this.board[yPos][xPos].width;
@@ -272,7 +265,7 @@ var xInterval = canvasWidth/thisGame.boardWidth;
 var yInterval = canvasHeight/thisGame.boardHeight;
 drawBoard(ctx,thisGame,canvasHeight,canvasWidth);
 c.addEventListener('click',function() {
-	thisGame.turn(Math.floor(event.pageX/xInterval),Math.floor(event.pageY/yInterval));
+	thisGame.turn(Math.floor(event.offsetX/xInterval),Math.floor(event.offsetY/yInterval));
 	drawBoard(ctx,thisGame,canvasHeight,canvasWidth);
 }, false);
 /*
@@ -286,6 +279,4 @@ drawBoard(ctx,thisGame,canvasHeight,canvasWidth);*/
 
 </script>
 </body>
-
-
 </html>
